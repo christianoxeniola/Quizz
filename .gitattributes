@@ -1,2 +1,82 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import {useState} from "react";
+
+function App() {
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+
+  const questions = [
+    {
+      questionText: 'How many plagues did God send on Egypt?',
+      answerOptions: [
+        {answerText: '5', isCorrect: false},
+        {answerText: '12', isCorrect: false},
+        {answerText: '10', isCorrect: true},
+        {answerText: '3', isCorrect: false},
+      ],
+    },
+    {
+      questionText: 'Where did the Ark of Noah rested?',
+      answerOptions: [
+        {answerText: 'Mt. Olive', isCorrect: false},
+        {answerText: 'Mt. Ararat', isCorrect: true},
+        {answerText: 'Mt. Sinai', isCorrect: false},
+        {answerText: 'Mt. Amana', isCorrect: false},
+      ],
+    },
+    {
+      questionText: 'What is the first book in the Bible?',
+      answerOptions: [
+        {answerText: 'Exodus', isCorrect: false},
+        {answerText: 'Genesis', isCorrect: true},
+        {answerText: 'Revelation', isCorrect: false},
+        {answerText: 'Matthew', isCorrect: false},
+      ],
+    },
+    {
+      questionText: 'How many brothers did Joseph have?',
+      answerOptions: [
+        {answerText: '3', isCorrect: false},
+        {answerText: '12', isCorrect: false},
+        {answerText: '9', isCorrect: false},
+        {answerText: '11', isCorrect: true},
+      ],
+    },
+  ];
+
+  const [showScore, setShowScore] = useState(false)
+  const [score, setScore] = useState(0);
+
+  function handleAnswerClick(isCorrect){
+    if(isCorrect === true){
+      setScore(score +1)
+    }
+    const nextQuestion = currentQuestion +1
+    if(nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    }else{
+      setShowScore(true)
+    }
+  }
+
+  return (
+    <div className="app">{showScore ? ( <div className="score-section">
+          You scored {score} out of {questions.length} questions.
+      </div>):(
+        <>
+            <div className="question-section">
+              <div className="question-count">
+                <span>Question {currentQuestion +1}/{questions.length}</span>
+              </div>
+              <div className="question-text">{questions[currentQuestion].questionText}</div>
+            </div>
+            <div className="answer-section">
+              {questions[currentQuestion].answerOptions.map((answerOption)=>(
+                <button onClick={() => handleAnswerClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
+              ))}
+            </div>
+            </>
+          )}
+    </div>
+  )
+}
+    
+export default App
